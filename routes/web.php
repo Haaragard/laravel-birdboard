@@ -22,13 +22,17 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('/create', function () { return 'asdasd'; });
+Route::group(['prefix' => '/projects', 'middleware' => 'auth'], function () {
+    Route::get('/', [ProjectsController::class, 'index']);
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/projects', [ProjectsController::class, 'index'])->middleware('auth');
-
-    Route::get('/projects/{project}', [ProjectsController::class, 'show'])
+    Route::get('/{project}', [ProjectsController::class, 'show'])
+        ->whereNumber('project')
         ->name('projects.show');
 
-    Route::post('/projects', [ProjectsController::class, 'store']);
+    Route::get('/create', [ProjectsController::class, 'create']);
+
+    Route::post('/', [ProjectsController::class, 'store']);
 });
+
+require __DIR__.'/auth.php';
