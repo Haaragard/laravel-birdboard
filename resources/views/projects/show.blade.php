@@ -10,6 +10,12 @@
                     <div>{{ $project->description }}</div>
 
                     <a href="/projects" class="underline">Go back</a>
+
+                    <div class="flex flex-col">
+                        @foreach ($project->tasks as $task)
+                            {{ $task->body }}
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

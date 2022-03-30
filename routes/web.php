@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\ProjectTasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/create', function () { return 'asdasd'; });
 Route::group(['prefix' => '/projects', 'middleware' => 'auth'], function () {
     Route::get('/', [ProjectsController::class, 'index']);
 
@@ -31,8 +31,9 @@ Route::group(['prefix' => '/projects', 'middleware' => 'auth'], function () {
         ->name('projects.show');
 
     Route::get('/create', [ProjectsController::class, 'create']);
-
     Route::post('/', [ProjectsController::class, 'store']);
+
+    Route::post('/{project}/tasks', [ProjectTasksController::class, 'store']);
 });
 
 require __DIR__.'/auth.php';
